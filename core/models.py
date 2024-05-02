@@ -59,9 +59,10 @@ class PurchaseOrder(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         help_text="Enter vendor id",
+        related_name="purchase_orders",
     )
     order_date = models.DateField()
-    delivery_date = models.DateField()
+    delivery_date = models.DateField(null=True, blank=True)
     items = models.TextField(
         help_text='Enter items in JSON format. Example: {"item1": 10, "item2": 20}'
     )
@@ -74,7 +75,7 @@ class PurchaseOrder(models.Model):
         default="pending",
         choices=ORDER_STATUS,
     )
-    quality_rating = models.FloatField(default=None, null=True)
+    quality_rating = models.FloatField(default=None, null=True, blank=True)
     issue_date = models.DateField(auto_now_add=True)
     acknowledgment_date = models.DateField(null=True)
 
@@ -95,10 +96,10 @@ class HistoricalPerformance(models.Model):
         Vendor, on_delete=models.CASCADE, related_name="historical_performance"
     )
     date = models.DateField(auto_now_add=True)
-    on_time_delivery_rate = models.FloatField(default=None, null=True)
-    quality_rating_avg = models.FloatField(default=None, null=True)
-    average_response_time = models.FloatField(default=None, null=True)
-    fulfillment_rate = models.FloatField(default=None, null=True)
+    on_time_delivery_rate = models.FloatField(default=None, null=True, blank=True)
+    quality_rating_avg = models.FloatField(default=None, null=True, blank=True)
+    average_response_time = models.FloatField(default=None, null=True, blank=True)
+    fulfillment_rate = models.FloatField(default=None, null=True, blank=True)
 
     def __str__(self):
         return self.vendor.name + " - " + str(self.date)

@@ -8,14 +8,7 @@ class VendorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vendor
-        fields = [
-            "vendor_id",
-            "name",
-            "phone",
-            "email",
-            "address",
-        ]
-
+        fields = "__all__"
 
 class PurchaseOrderSerializer(serializers.ModelSerializer):
     items = serializers.JSONField()
@@ -24,21 +17,10 @@ class PurchaseOrderSerializer(serializers.ModelSerializer):
         
         representation['items'] = json.loads(str(instance.items).replace("'", '"'))
         return representation
+    
 
     class Meta:
         model = PurchaseOrder
-        fields = [
-            "po_id",
-            "vendor_reference",
-            "order_date",
-            "expected_delivery_date",
-            "delivered_date",
-            "delivered",
-            "items",
-            "total_quantity",
-            "status",
-            "amount",
-            
-        ]
-        read_only_fields = ["total_quantity"]
+        fields = "__all__"
+        read_only_fields = ["quantity"]
         
