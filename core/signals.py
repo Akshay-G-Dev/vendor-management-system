@@ -7,8 +7,13 @@ from django.db.models import Avg, F
 
 @receiver(pre_save, sender=PurchaseOrder)
 def po_handler(sender, instance, **kwargs):
+
     if instance.id is None:
-        pass
+        try:
+            instance.quantity = sum(map(int, json.loads(instance.items).values()))
+        except:
+            instance.quantity = 0
+            raise ValueError("Invalid Values for quantity")
 
     else:
         vendor = instance.vendor_reference
@@ -22,22 +27,30 @@ def po_handler(sender, instance, **kwargs):
             response_time /= timedelta(days=1)
             print(response_time)
             vendor.average_response_time = str(response_time)
-        fulfilled_order = PurchaseOrder.objects.filter(
-            Q(vendor_reference=vendor) and Q(status="completed")
-        ).count()
-        issued_order = PurchaseOrder.objects.filter(Q(vendor_reference=vendor)).count()
-        vendor.fulfillment_rate = fulfilled_order / issued_order
-
+        if instance.items != old_instance.items:
+            try:
+                instance.quantity = sum(map(int, json.loads(instance.items).values()))
+            except:
+                instance.quantity = 0
+            raise ValueError("Invalid Values for quantity")
         if instance.status == "completed" and old_instance.status != "completed":
             vendor = instance.vendor_reference
-            on_time = PurchaseOrder.objects.filter(
-                Q(vendor_reference=vendor)
-                & Q(status="completed")
-                & Q(delivery_date__lte=instance.delivery_date)
-            ).count()
-            total = PurchaseOrder.objects.filter(
-                Q(vendor_reference=vendor) & Q(status="completed")
-            ).count()
+
+            on_time = (
+                PurchaseOrder.objects.filter(
+                    Q(vendor_reference=vendor)
+                    & Q(status="completed")
+                    & Q(delivery_date__lte=instance.delivery_date)
+                ).count()
+                + 1
+            )
+            total = (
+                PurchaseOrder.objects.filter(
+                    Q(vendor_reference=vendor) & Q(status="completed")
+                ).count()
+                + 1
+            )
+
             if total and on_time:
                 vendor.on_time_delivery_rate = on_time / total
 
@@ -46,14 +59,30 @@ def po_handler(sender, instance, **kwargs):
                     vendor.quality_rating_avg = instance.quality_rating
                 else:
                     vendor.quality_rating_avg = (
-                        int(vendor.quality_rating_avg or 0) + instance.quality_rating
+                        vendor.quality_rating_avg + instance.quality_rating
                     ) / 2
-            HistoricalPerformance.objects.update_or_create(
-                vendor=vendor,
-                on_time_delivery_rate=vendor.on_time_delivery_rate,
-                quality_rating_avg=vendor.quality_rating_avg,
-                average_response_time=vendor.average_response_time,
-                fulfillment_rate=vendor.fulfillment_rate,
-            )
-        print("s9ignal called")
+
         vendor.save()
+
+
+@receiver(post_save, sender=PurchaseOrder)
+def po_after_save_handler(sender, instance, **kwargs):
+    vendor = instance.vendor_reference
+    fulfilled_order = PurchaseOrder.objects.filter(
+        Q(vendor_reference=vendor) and Q(status="completed")
+    ).count()
+    issued_order = PurchaseOrder.objects.filter(Q(vendor_reference=vendor)).count()
+    vendor.fulfillment_rate = fulfilled_order / issued_order
+    vendor.save()
+
+
+@receiver(post_save, sender=Vendor)
+def vendor_after_save_handler(sender, instance, **kwargs):
+    vendor = instance
+    HistoricalPerformance.objects.update_or_create(
+        vendor=vendor,
+        on_time_delivery_rate=vendor.on_time_delivery_rate,
+        quality_rating_avg=vendor.quality_rating_avg,
+        average_response_time=vendor.average_response_time,
+        fulfillment_rate=vendor.fulfillment_rate,
+    )

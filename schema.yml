@@ -1,0 +1,418 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /vendors/:
+    get:
+      operationId: listVendors
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vendor'
+          description: ''
+      tags:
+      - vendors
+    post:
+      operationId: createVendor
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+          description: ''
+      tags:
+      - vendors
+  /vendors/{id}/:
+    get:
+      operationId: retrieveVendor
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this vendor.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+          description: ''
+      tags:
+      - vendors
+    put:
+      operationId: updateVendor
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this vendor.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+          description: ''
+      tags:
+      - vendors
+    patch:
+      operationId: partialUpdateVendor
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this vendor.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+          description: ''
+      tags:
+      - vendors
+    delete:
+      operationId: destroyVendor
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this vendor.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - vendors
+  /vendors/{id}/performance/:
+    get:
+      operationId: performanceVendor
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this vendor.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+          description: ''
+      tags:
+      - vendors
+  /purchase_orders/:
+    get:
+      operationId: listPurchaseOrders
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PurchaseOrder'
+          description: ''
+      tags:
+      - purchase-orders
+    post:
+      operationId: createPurchaseOrder
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+          description: ''
+      tags:
+      - purchase-orders
+  /purchase_orders/{id}/:
+    get:
+      operationId: retrievePurchaseOrder
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this purchase order.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+          description: ''
+      tags:
+      - purchase-orders
+    put:
+      operationId: updatePurchaseOrder
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this purchase order.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+          description: ''
+      tags:
+      - purchase-orders
+    patch:
+      operationId: partialUpdatePurchaseOrder
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this purchase order.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+          description: ''
+      tags:
+      - purchase-orders
+    delete:
+      operationId: destroyPurchaseOrder
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this purchase order.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - purchase-orders
+  /purchase_orders/{id}/acknowledge/:
+    post:
+      operationId: acknowledgePurchaseOrder
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this purchase order.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+          description: ''
+      tags:
+      - purchase-orders
+components:
+  schemas:
+    Vendor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        contact_details:
+          type: string
+        address:
+          type: string
+        vendor_code:
+          type: string
+          maxLength: 200
+        on_time_delivery_rate:
+          type: number
+          nullable: true
+          description: Optional
+        quality_rating_avg:
+          type: number
+          nullable: true
+          description: Optional
+        average_response_time:
+          type: number
+          nullable: true
+          description: Optional
+        fulfillment_rate:
+          type: number
+          nullable: true
+          description: Optional
+      required:
+      - name
+      - contact_details
+      - address
+      - vendor_code
+    PurchaseOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        items:
+          type: object
+          description: 'Enter items in JSON format. Example: {"item1": 10, "item2":
+            20}'
+        po_number:
+          type: string
+          maxLength: 200
+        order_date:
+          type: string
+          format: date
+        delivery_date:
+          type: string
+          format: date
+          nullable: true
+          description: Expected or Actual Delivery Date
+        quantity:
+          type: integer
+          readOnly: true
+          description: Auto Calculated with items
+        status:
+          enum:
+          - pending
+          - completed
+          - canceled
+          type: string
+          description: Enter status of the order
+        quality_rating:
+          type: number
+          nullable: true
+          description: Optional
+        issue_date:
+          type: string
+          format: date
+          readOnly: true
+        acknowledgment_date:
+          type: string
+          format: date
+          nullable: true
+          description: Optional
+        vendor_reference:
+          type: integer
+          nullable: true
+          description: Enter vendor id
+      required:
+      - items
+      - po_number
+      - order_date
