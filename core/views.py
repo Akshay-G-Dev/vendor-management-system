@@ -22,7 +22,7 @@ class VendorSet(viewsets.ModelViewSet):
 class PurchaseOrderSet(viewsets.ModelViewSet):
     queryset = PurchaseOrder.objects.all()
     serializer_class = PurchaseOrderSerializer
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=['post'])
     def acknowledge(self, request, pk=None):
         po = self.get_object()
         po.acknowledgment_date = timezone.now()
