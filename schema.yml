@@ -262,7 +262,7 @@ paths:
       security:
           - TokenAuth: []
       operationId: acknowledgePurchaseOrder
-      description: 'Acknowledge a specific purchase order'
+      description: 'Acknowledge a specific purchase order. (Only the vendor to which order is issued can acknowledge the order)'
       parameters:
       - name: id
         in: path
@@ -304,7 +304,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrder'
-          description: ''
+          description: 'Succesfully acknowledged purchase order'
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+          description: "Unauthorized. Only reference vendor can acknowledge it"
       tags:
       - api
   /api/login/:
