@@ -93,36 +93,6 @@ paths:
           description: ''
       tags:
       - vendors
-    patch:
-      operationId: partialUpdateVendor
-      description: ''
-      parameters:
-      - name: id
-        in: path
-        required: true
-        description: A unique integer value identifying this vendor.
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Vendor'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Vendor'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Vendor'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Vendor'
-          description: ''
-      tags:
-      - vendors
     delete:
       operationId: destroyVendor
       description: ''
@@ -248,36 +218,6 @@ paths:
           description: ''
       tags:
       - purchase-orders
-    patch:
-      operationId: partialUpdatePurchaseOrder
-      description: ''
-      parameters:
-      - name: id
-        in: path
-        required: true
-        description: A unique integer value identifying this purchase order.
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PurchaseOrder'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PurchaseOrder'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PurchaseOrder'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PurchaseOrder'
-          description: ''
-      tags:
-      - purchase-orders
     delete:
       operationId: destroyPurchaseOrder
       description: ''
@@ -308,13 +248,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PurchaseOrder'
+              type: object
+              properties:
+                quality_rating:
+                  type: number
+                  nullable: true
+                  description: Optional
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PurchaseOrder'
+              type: object
+              properties:
+                quality_rating:
+                  type: number
+                  nullable: true
+                  description: Optional
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PurchaseOrder'
+              
+              type: object
+              properties:
+                quality_rating:
+                  type: number
+                  nullable: true
+                  description: Optional
       responses:
         '201':
           content:
@@ -416,3 +372,6 @@ components:
       - items
       - po_number
       - order_date
+
+
+
