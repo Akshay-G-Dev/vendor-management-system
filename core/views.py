@@ -32,5 +32,7 @@ class PurchaseOrderSet(viewsets.ModelViewSet):
     def acknowledge(self, request, pk=None):
         po = self.get_object()
         po.acknowledgment_date = timezone.now()
+        if request.data.get("quality_rating"):
+            po.quality_rating = request.data["quality_rating"]
         po.save()
         return Response({"message": "Acknowledged"})

@@ -2,10 +2,10 @@ openapi: 3.0.2
 info:
   title: ''
   version: ''
-  servers:
-    - url: https://vendorms.pythonanywhere.com
+servers:
+  - url: https://vendorms.pythonanywhere.com
 paths:
-  /vendors/:
+  /api/vendors/:
     get:
       operationId: listVendors
       description: ''
@@ -45,7 +45,7 @@ paths:
           description: ''
       tags:
       - vendors
-  /vendors/{id}/:
+  /api/vendors/{id}/:
     get:
       operationId: retrieveVendor
       description: ''
@@ -110,7 +110,7 @@ paths:
           description: ''
       tags:
       - vendors
-  /vendors/{id}/performance/:
+  /api/vendors/{id}/performance/:
     get:
       operationId: performanceVendor
       description: ''
@@ -130,7 +130,7 @@ paths:
           description: ''
       tags:
       - vendors
-  /purchase_orders/:
+  /api/purchase_orders/:
     get:
       operationId: listPurchaseOrders
       description: ''
@@ -170,7 +170,7 @@ paths:
           description: ''
       tags:
       - purchase-orders
-  /purchase_orders/{id}/:
+  /api/purchase_orders/{id}/:
     get:
       operationId: retrievePurchaseOrder
       description: ''
@@ -235,7 +235,7 @@ paths:
           description: ''
       tags:
       - purchase-orders
-  /purchase_orders/{id}/acknowledge/:
+  /api/purchase_orders/{id}/acknowledge/:
     post:
       operationId: acknowledgePurchaseOrder
       description: ''

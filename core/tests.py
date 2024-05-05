@@ -3,7 +3,7 @@ from core.views import VendorSet, PurchaseOrderSet
 from core.models import Vendor, PurchaseOrder
 from rest_framework.test import APIClient
 import json
-
+from django.utils import timezone
 
 class TestVendorAPI(TestCase):
     def setUp(self):
@@ -16,7 +16,7 @@ class TestVendorAPI(TestCase):
         )
 
     def test_vendor_creation(self):
-        response = self.client.get(f"/vendors/{self.vendor.id}/")
+        response = self.client.get(f"/api/vendors/{self.vendor.id}/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.json(),
@@ -34,7 +34,7 @@ class TestVendorAPI(TestCase):
         )
 
     def test_vendor_performance(self):
-        response = self.client.get(f"/vendors/{self.vendor.id}/performance/")
+        response = self.client.get(f"/api/vendors/{self.vendor.id}/performance/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.json(),
@@ -70,7 +70,7 @@ class PurchaseOrderAPI(TestCase):
         )
 
     def test_created_po(self):
-        response = self.client.get(f"/purchase_orders/{self.po.id}/")
+        response = self.client.get(f"/api/purchase_orders/{self.po.id}/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.json(),
@@ -80,17 +80,24 @@ class PurchaseOrderAPI(TestCase):
                 "vendor_reference": self.vendor.id,
                 "order_date": "2024-05-04",
                 "delivery_date": "2024-05-15",
-                "issue_date": "2024-05-04",
+                "issue_date": timezone.now().date().strftime("%Y-%m-%d"),
                 "acknowledgment_date": None,
                 "status": "pending",
                 "items": {"item1": 10},
                 "quantity": 10,
+                "quality_rating": None,
             },
         )
 
     def test_acknowledge_po(self):
         response = self.client.post(
-            f"/purchase_orders/{self.po.id}/acknowledge/", data={"quality_rating": 4}
+            f"/api/purchase_orders/{self.po.id}/acknowledge/", data={"quality_rating": 4}
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"message": "Acknowledged"})
+        response = self.client.get(f"/api/purchase_orders/{self.po.id}/")
+        self.assertEqual(response.json()["acknowledgment_date"], timezone.now().date().strftime("%Y-%m-%d"))
+        self.assertEqual(response.json()["quality_rating"], 4)
+
+
+

@@ -24,9 +24,9 @@ def po_handler(sender, instance, **kwargs):
             ).aggregate(response_time=Avg(F("acknowledgment_date") - F("issue_date")))[
                 "response_time"
             ]
-            response_time /= timedelta(days=1)
-            print(response_time)
-            vendor.average_response_time = str(response_time)
+            if response_time:
+                response_time /= timedelta(days=1)
+                vendor.average_response_time = str(response_time)
         if instance.items != old_instance.items:
             try:
                 instance.quantity = sum(map(int, json.loads(instance.items).values()))
