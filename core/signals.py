@@ -10,7 +10,8 @@ def po_handler(sender, instance, **kwargs):
 
     if instance.id is None:
         try:
-            instance.quantity = sum(map(int, json.loads(instance.items).values()))
+            instance.quantity = sum(map(int, instance.items.values()))
+
         except:
             instance.quantity = 0
             raise ValueError("Invalid Values for quantity")
@@ -29,7 +30,7 @@ def po_handler(sender, instance, **kwargs):
                 vendor.average_response_time = str(response_time)
         if instance.items != old_instance.items:
             try:
-                instance.quantity = sum(map(int, json.loads(instance.items).values()))
+                instance.quantity = sum(map(int, instance.items.values()))
             except:
                 instance.quantity = 0
             raise ValueError("Invalid Values for quantity")
@@ -79,10 +80,12 @@ def po_after_save_handler(sender, instance, **kwargs):
 @receiver(post_save, sender=Vendor)
 def vendor_after_save_handler(sender, instance, **kwargs):
     vendor = instance
-    HistoricalPerformance.objects.update_or_create(
+    hpobj, created = HistoricalPerformance.objects.update_or_create(
         vendor=vendor,
-        on_time_delivery_rate=vendor.on_time_delivery_rate,
-        quality_rating_avg=vendor.quality_rating_avg,
-        average_response_time=vendor.average_response_time,
-        fulfillment_rate=vendor.fulfillment_rate,
     )
+    hpobj.on_time_delivery_rate = vendor.on_time_delivery_rate
+    hpobj.quality_rating_avg = vendor.quality_rating_avg
+    hpobj.fulfillment_rate = vendor.fulfillment_rate
+    hpobj.average_response_time = vendor.average_response_time
+    hpobj.save()
+    

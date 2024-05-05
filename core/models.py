@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator
 import json
 from datetime import timedelta
-
+from django.contrib.auth.models import AbstractUser
 from rest_framework.response import Response
 
 ORDER_STATUS = (
@@ -11,6 +11,10 @@ ORDER_STATUS = (
     ("canceled", "canceled"),
 )
 
+class User(AbstractUser):
+    vendor_profile = models.ForeignKey(
+        "Vendor", on_delete=models.SET_NULL, null=True, blank=True, related_name="users"
+    )
 
 class Vendor(models.Model):
     name = models.CharField(max_length=200)

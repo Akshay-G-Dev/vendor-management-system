@@ -19,9 +19,12 @@ from django.contrib import admin
 from django.urls import path, include
 from core import urls
 from django.views.generic.base import RedirectView
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path("", RedirectView.as_view(url="api/")),
     path("admin/", admin.site.urls),
     path("api/", include("core.urls")),
+    path("api-token-auth/", obtain_auth_token, name="api_token_auth"),
+    
 ]

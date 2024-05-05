@@ -1,14 +1,16 @@
 openapi: 3.0.2
 info:
-  title: ''
-  version: ''
+  title: 'Vendor Management System'
+  version: '1.1'
 servers:
   - url: https://vendorms.pythonanywhere.com
 paths:
   /api/vendors/:
     get:
+      security:
+          - TokenAuth: []
       operationId: listVendors
-      description: ''
+      description: 'Retrieve a list of vendors'
       parameters: []
       responses:
         '200':
@@ -20,10 +22,12 @@ paths:
                   $ref: '#/components/schemas/Vendor'
           description: ''
       tags:
-      - vendors
+      - api
     post:
+      security:
+          - TokenAuth: []
       operationId: createVendor
-      description: ''
+      description: 'Create a new vendor'
       parameters: []
       requestBody:
         content:
@@ -44,11 +48,13 @@ paths:
                 $ref: '#/components/schemas/Vendor'
           description: ''
       tags:
-      - vendors
+      - api
   /api/vendors/{id}/:
     get:
+      security:
+          - TokenAuth: []
       operationId: retrieveVendor
-      description: ''
+      description: 'Retrieve a specific vendor information'
       parameters:
       - name: id
         in: path
@@ -64,10 +70,12 @@ paths:
                 $ref: '#/components/schemas/Vendor'
           description: ''
       tags:
-      - vendors
+      - api
     put:
+      security:
+          - TokenAuth: []
       operationId: updateVendor
-      description: ''
+      description: 'Update a specific vendor information'
       parameters:
       - name: id
         in: path
@@ -94,10 +102,12 @@ paths:
                 $ref: '#/components/schemas/Vendor'
           description: ''
       tags:
-      - vendors
+      - api
     delete:
+      security:
+          - TokenAuth: []
       operationId: destroyVendor
-      description: ''
+      description: 'Delete a specific vendor information'
       parameters:
       - name: id
         in: path
@@ -109,11 +119,13 @@ paths:
         '204':
           description: ''
       tags:
-      - vendors
+      - api
   /api/vendors/{id}/performance/:
     get:
+      security:
+          - TokenAuth: []
       operationId: performanceVendor
-      description: ''
+      description: 'Retrieve performance data for a specific vendor'
       parameters:
       - name: id
         in: path
@@ -129,11 +141,13 @@ paths:
                 $ref: '#/components/schemas/Vendor'
           description: ''
       tags:
-      - vendors
+      - api
   /api/purchase_orders/:
     get:
+      security:
+          - TokenAuth: []
       operationId: listPurchaseOrders
-      description: ''
+      description: 'Retrieve a list of purchase orders'
       parameters: []
       responses:
         '200':
@@ -145,10 +159,12 @@ paths:
                   $ref: '#/components/schemas/PurchaseOrder'
           description: ''
       tags:
-      - purchase-orders
+      - api
     post:
+      security:
+          - TokenAuth: []
       operationId: createPurchaseOrder
-      description: ''
+      description: 'Create a new purchase order'
       parameters: []
       requestBody:
         content:
@@ -169,11 +185,13 @@ paths:
                 $ref: '#/components/schemas/PurchaseOrder'
           description: ''
       tags:
-      - purchase-orders
+      - api
   /api/purchase_orders/{id}/:
     get:
+      security:
+          - TokenAuth: []
       operationId: retrievePurchaseOrder
-      description: ''
+      description: 'Retrieve a specific purchase order information'
       parameters:
       - name: id
         in: path
@@ -189,10 +207,12 @@ paths:
                 $ref: '#/components/schemas/PurchaseOrder'
           description: ''
       tags:
-      - purchase-orders
+      - api
     put:
+      security:
+          - TokenAuth: []
       operationId: updatePurchaseOrder
-      description: ''
+      description: 'Update a specific purchase order information'
       parameters:
       - name: id
         in: path
@@ -219,10 +239,12 @@ paths:
                 $ref: '#/components/schemas/PurchaseOrder'
           description: ''
       tags:
-      - purchase-orders
+      - api
     delete:
+      security:
+          - TokenAuth: []
       operationId: destroyPurchaseOrder
-      description: ''
+      description: 'Delete a specific purchase order'
       parameters:
       - name: id
         in: path
@@ -234,11 +256,13 @@ paths:
         '204':
           description: ''
       tags:
-      - purchase-orders
+      - api
   /api/purchase_orders/{id}/acknowledge/:
     post:
+      security:
+          - TokenAuth: []
       operationId: acknowledgePurchaseOrder
-      description: ''
+      description: 'Acknowledge a specific purchase order'
       parameters:
       - name: id
         in: path
@@ -256,6 +280,7 @@ paths:
                   type: number
                   nullable: true
                   description: Optional
+          
           application/x-www-form-urlencoded:
             schema:
               type: object
@@ -281,8 +306,196 @@ paths:
                 $ref: '#/components/schemas/PurchaseOrder'
           description: ''
       tags:
-      - purchase-orders
+      - api
+  /api/login/:
+    post:
+      operationId: createUserLogin
+      description: 'API For login to generate token'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  token:
+                    type: string
+          description: ''
+      tags:
+      - api
+  /api/register/:
+    post:
+      operationId: createUserRegister
+      description: 'API tp register new user'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                password2:
+                  type: string
+                  description: Confirm Password
+                first_name:
+                  type: string
+                  nullable: true
+                  description: Optional
+                last_name:
+                  type: string
+                  nullable: true
+                  description: Optional
+                vendor_code:
+                  type: string
+                  nullable: true
+                  description: Optional, Vendor Code if user is vendor
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                password2:
+                  type: string
+                  description: Confirm Password
+                first_name:
+                  type: string
+                  nullable: true
+                  description: Optional
+                last_name:
+                  type: string
+                  nullable: true
+                  description: Optional
+                vendor_code:
+                  type: string
+                  nullable: true
+                  description: Optional, Vendor Code if user is vendor
+          multipart/form-data:
+            schema: 
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                password2:
+                  type: string
+                  description: Confirm Password
+                first_name:
+                  type: string
+                  nullable: true
+                  description: Optional
+                last_name:
+                  type: string
+                  nullable: true
+                  description: Optional
+                vendor_code:
+                  type: string
+                  nullable: true
+                  description: Optional, Vendor Code if user is vendor
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      username:
+                        type: string
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      email:
+                        type: string
+
+                  token:
+                    type: string
+          description: ''
+      tags:
+      - api
+  /api/logout/:
+    post:
+      security:
+          - TokenAuth: []
+      operationId: createUserLogout
+      description: 'Logout active user or delete token'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
 components:
+  securitySchemes:
+    TokenAuth:
+      type: http
+      scheme: Token
+      bearerFormat: Token
   schemas:
     Vendor:
       type: object
@@ -374,6 +587,18 @@ components:
       - items
       - po_number
       - order_date
-
-
-
+    AuthToken:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        token:
+          type: string
+          readOnly: true
+      required:
+      - username
+      - password

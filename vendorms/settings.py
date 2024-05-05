@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-
+from re import A
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-k%%1#bonu^4-v_(6liy6a02vam@^(dw4n0tu#p=pol78rkko(r"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -122,7 +122,15 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-MEDIA_URL = '/media/'
-STATIC_ROOT = Path(BASE_DIR / 'static')
-MEDIA_ROOT = Path(BASE_DIR / 'media')
+MEDIA_URL = "/media/"
+STATIC_ROOT = Path(BASE_DIR / "static")
+MEDIA_ROOT = Path(BASE_DIR / "media")
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+}
+
+AUTH_USER_MODEL = "core.User"
